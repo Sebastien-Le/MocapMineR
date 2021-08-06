@@ -1,0 +1,168 @@
+#' Title
+#'
+#' @param joint The joint dataset: the coordinates of the joints as a function of time
+#' @param structure The structure dataset: a first column with the segments composing the structure, two other columns defining the extremities of the segments
+#' @param sidekick A dataset formatted to be plotted with the superskeleton function, the sidekick information
+#' @param num.joint The index of the column associated with the joint variable
+#' @param num.frame The index of the column associated with the frame variable
+#' @param num.x The index of the column associated with the x-axis variable represented on the graphical output
+#' @param num.y The index of the column associated with the y-axis variable represented on the graphical output
+#' @param frame.index The index of the frame you want to represent (static representation)
+#' @param body.part The names of the segments you want to represent
+#' @param color.part The colour you want to use to represent the segments
+#' @param plot.title The title of the graphical output
+#' @param x.legend The legend on the x-axis
+#' @param y.legend The legend on the y-axis
+#' @param x.dilatation The dilatation coefficient on the x-axis
+#' @param y.dilatation The dilatation coefficient on the y-axis
+#' @param x.translation The translation coefficient on the x-axis
+#' @param y.translation The translation coefficient on the y-axis
+#' @param fps The number of frames per second
+#'
+#' @return An animation by default or a static representation for a given frame
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' data(gaetan_apchagi)
+#' data(human)
+#'
+#' S1_right_ankle <- sidekick(joint=gaetan_apchagi, num.joint=2, num.name=8,
+#' num.x=6, num.y=4, joint1="RIGHT_ANKLE", joint2=NULL)
+#'
+#' superskeleton(joint=gaetan_apchagi, structure=human, sidekick=S1_right_ankle,
+#' num.joint=2, num.frame=6, num.x=3, num.y=4,  frame.index=NULL,
+#' body.part="RIGHT_ANKLE", color.part="orange",
+#' plot.title="Gaetan - right ankle trajectory", x.legend="Frame",
+#' y.legend="Trajectory in y (cm)")
+#' }
+#'
+#' data(gaetan_apchagi)
+#' data(human)
+#' S2_right_ankle_knee <- sidekick(joint=gaetan_apchagi, num.joint=2, num.name=8,
+#' num.x=4, num.y=4, joint1="RIGHT_ANKLE", joint2="RIGHT_KNEE")
+#'
+#' superskeleton(joint=gaetan_apchagi, structure=human, sidekick=S2_right_ankle_knee,
+#' num.joint=2, num.frame=6, num.x=3, num.y=4,
+#' frame.index=25, body.part=c("RIGHT_ANKLE","RIGHT_KNEE"),
+#' color.part="orange",
+#' plot.title="Gaetan - right ankle vs. knee trajectory", x.legend="Ankle - y (cm)",
+#' y.legend="Knee - y (cm)")
+#'
+superskeleton <- function(joint, structure, sidekick, num.joint, num.frame, num.x, num.y,
+                          frame.index=NULL, body.part, color.part, plot.title, x.legend, y.legend,
+                          x.dilatation=1, y.dilatation=1, x.translation=200, y.translation=0, fps=30) {
+
+  loc <- NULL
+  object_type <- NULL
+  segment <- NULL
+  x <- NULL
+  y <- NULL
+  name <- NULL
+
+  # 1st data set
+
+  arti_inter <- select(joint, c(num.joint, num.x, num.y, num.frame))
+  names(arti_inter) <- c("loc", "x", "y", "frame")
+
+  extr1 <- structure[,c(1,2)]
+  names(extr1)[2] <- "loc"
+  extr2 <- structure[,c(1,3)]
+  names(extr2)[2] <- "loc"
+  struc_inter <- rbind(extr1, extr2)
+
+  squelette <- merge(struc_inter, arti_inter, all.x=TRUE, all.y=TRUE, by="loc")
+
+  squelette <- squelette[order(squelette$frame, squelette$segment), ]
+  row.names(squelette) <- 1:nrow(squelette)
+
+  sidekick_2 <- subset(sidekick, select = - c(name, object_type))
+
+  # 2nd data set
+
+  if (is.null(frame.index)){
+    # Animated graphic
+
+    tmp <- data.frame()
+    res <- data.frame()
+    for (i in 1:nrow(sidekick_2)){
+      res <- sidekick_2[1:i,]
+      tmp <- rbind(tmp, res)
+    }
+
+    # Modify the frame column
+    tmp$frame <- c(rep(0:max(tmp$frame), 1:(max(tmp$frame)+1)))
+
+    # Dilate the axes to and offset in x to put the man and the trajectory side by side
+    tmp$x <- (tmp$x + x.translation) * x.dilatation
+    tmp$y <- (tmp$y + y.translation) * y.dilatation
+
+    # Concatenate the two data sets
+    two_data <- rbind(squelette, tmp)
+
+    # Graphic
+    g <- ggplot(two_data, aes(x, y, group = segment))  +
+      geom_point() +
+      geom_point(data = subset(two_data, loc %in% body.part), color = color.part, size=3) +
+      geom_path() +
+      coord_fixed(ratio = 1) +
+      scale_colour_manual(values=c(adjustcolor("black", alpha.f = 0.3), color.part)) +
+      transition_manual(frame) +
+      labs(title = plot.title,
+           subtitle="Frame = {frame}",
+           x = x.legend) +
+      theme(plot.title = element_text(hjust = 0.5, size=12, face="bold"),
+            plot.subtitle=element_text(hjust=0.5),
+            axis.text.x = element_blank(),
+            axis.ticks.x = element_blank(),
+            axis.title.x = element_text(hjust=1),
+            legend.position = "none") +
+      scale_y_continuous(
+        "y (cm)",
+        sec.axis = sec_axis(~ . / y.dilatation - y.translation, name = y.legend)
+      )
+
+    animate(g, fps = fps)
+
+  }
+
+  else{
+    # Static graphic
+
+    df <- subset(squelette, frame == frame.index)
+
+    g <- ggplot() +
+      ggtitle(plot.title) +
+      theme(plot.title = element_text(hjust = 0.5, size=12, face="bold"),
+            axis.text.x = element_blank(),
+            axis.ticks.x = element_blank(),
+            axis.title.x = element_text(hjust=1),
+            legend.position = "none") +
+
+      geom_point(data = df, aes(x=x, y=y, group = segment)) +
+      geom_line(data = df, aes(x=x, y=y, group = segment)) +
+      geom_point(data = subset(df, loc %in% body.part), aes(x=x, y=y), color = color.part, size=3) +
+      coord_fixed(ratio = 1) +
+      scale_colour_manual(values=c("black", color.part))  +
+      labs(x = x.legend) +
+
+      geom_path(data = sidekick_2, aes(x=(x + x.translation) * x.dilatation, y=(y + y.translation) * y.dilatation)) +
+      scale_y_continuous(
+        "y (cm)",
+        sec.axis = sec_axis(~ . / y.dilatation - y.translation, name = y.legend)
+      )
+
+    if (startsWith(unique(sidekick$object_type), 'one')){
+
+      g <- g +
+        geom_smooth(data = sidekick_2, aes(x=(x + x.translation) * x.dilatation, y=(y + y.translation) * y.dilatation),
+                    formula = y ~ x, method = "loess", span = 0.15, method.args = list(degree=1), colour=color.part) +
+        geom_vline(xintercept=(frame.index + x.translation) * x.dilatation, linetype='dashed') +
+        annotate(x=(frame.index + x.translation) * x.dilatation, y=+Inf, label=paste0("Frame : ", frame.index), vjust=2, geom="label")
+
+    }
+
+    g
+
+  }
+}
