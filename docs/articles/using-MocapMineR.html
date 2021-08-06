@@ -80,6 +80,13 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">MocapMineR</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">gaetan_apchagi</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">human</span><span class="op">)</span>
+<span class="fu"><a href="../reference/skeleton.html">skeleton</a></span><span class="op">(</span>joint<span class="op">=</span><span class="va">gaetan_apchagi</span>, structure<span class="op">=</span> <span class="va">human</span>, num.joint<span class="op">=</span><span class="fl">2</span>,
+num.frame<span class="op">=</span><span class="fl">6</span>, num.x<span class="op">=</span><span class="fl">3</span>, num.y<span class="op">=</span><span class="fl">4</span>, num.name<span class="op">=</span><span class="fl">8</span><span class="op">)</span>
+<span class="co">#&gt; nframes and fps adjusted to match transition</span></code></pre></div>
+<p><img src="using-MocapMineR_files/figure-html/chunk1-1.gif"><!-- --></p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

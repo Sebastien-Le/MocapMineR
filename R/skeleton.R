@@ -31,8 +31,6 @@
 #'
 #' data(gaetan_apchagi)
 #' data(human)
-#' skeleton(joint=gaetan_apchagi, structure= human, num.joint=2,
-#' num.frame=6, num.x=3, num.y=4, num.name=8)
 #'
 #' skeleton(joint=gaetan_apchagi, structure= human, num.joint=2,
 #' num.frame=6, num.x=3, num.y=4, num.name=8, body.part = "tibia_r",
