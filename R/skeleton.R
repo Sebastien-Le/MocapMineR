@@ -63,6 +63,8 @@ skeleton <- function(joint, structure, num.joint, num.frame,
     bonhomme <- ggplot(squelette, aes(x=squelette[,3], y=squelette[,4], group = squelette[,2], color=squelette[,2] == body.part)) +
       geom_point() + geom_line() +
       coord_fixed(ratio = 1) +
+      xlab("") +
+      ylab("") +
       #geom_point(aes(x=min(joint$x), y=min(joint$y)), colour="white") +
       #geom_point(aes(x=max(joint$x), y=max(joint$y)), colour="white") +
       theme(plot.title = element_text(hjust = 0.5, size=12, face="bold"),
@@ -83,6 +85,8 @@ skeleton <- function(joint, structure, num.joint, num.frame,
     ggplot(tmp, aes(x=tmp[,3], y=tmp[,4], group = tmp[,2], color=tmp[,2] == body.part)) +
       geom_point() + geom_line() +
       coord_fixed(ratio = 1) +
+      xlab("") +
+      ylab("") +
       #geom_point(aes(x=min(joint$x), y=min(joint$y)), colour="white") +
       #geom_point(aes(x=max(joint$x), y=max(joint$y)), colour="white") +
       theme(plot.title = element_text(hjust = 0.5, size=12, face="bold"),
