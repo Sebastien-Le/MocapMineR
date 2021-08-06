@@ -1,0 +1,19 @@
+---
+title: "The main ideas behind the MocapMineR package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{using-MocapMineR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(MocapMineR)
+```
