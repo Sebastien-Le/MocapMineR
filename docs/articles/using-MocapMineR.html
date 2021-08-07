@@ -78,25 +78,73 @@
 
     
     
+<div id="introduction" class="section level1">
+<h1 class="hasAnchor">
+<a href="#introduction" class="anchor" aria-hidden="true"></a>Introduction</h1>
+<p><code>MocapMineR</code> is an R package dedicated to the analysis of motion capture data. It was initially developed by Lou-Anne Guillotel and myself (Sébastien Lê) to analyze movements from blind Tae Kwon Do practitioners. The main idea, was to find a way to correct these practitioners automatically, based on graphical indicators. Actually, this package works for any kind of motion capture data. To use this package you will need two data sets. A first one, in which you store the coordinates of joints as a function of time, a second one in which you describe the structure of interest, <em>i.e.</em> the dependencies between the joints that define the segments of the structure.</p>
+</div>
+<div id="a-first-step-vizualization-of-the-structure-as-a-function-of-time-with-the-skeleton-function" class="section level1">
+<h1 class="hasAnchor">
+<a href="#a-first-step-vizualization-of-the-structure-as-a-function-of-time-with-the-skeleton-function" class="anchor" aria-hidden="true"></a>A first step: vizualization of the structure as a function of time with the <code>skeleton</code> function</h1>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">MocapMineR</span><span class="op">)</span></code></pre></div>
+<p>The <em>human</em> data set depicts the dependencies between the segments that compose the structure. It is constituted of three columns, a first one (<em>segment</em>) with the names of the segments, the two others with the names of the joints at the extremities of the segments (<em>extr1</em> and <em>extr2</em>).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">gaetan_apchagi</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">human</span><span class="op">)</span>
-<span class="fu"><a href="../reference/skeleton.html">skeleton</a></span><span class="op">(</span>joint<span class="op">=</span><span class="va">gaetan_apchagi</span>, structure<span class="op">=</span> <span class="va">human</span>, num.joint<span class="op">=</span><span class="fl">2</span>,
-num.frame<span class="op">=</span><span class="fl">6</span>, num.x<span class="op">=</span><span class="fl">3</span>, num.y<span class="op">=</span><span class="fl">4</span>, num.name<span class="op">=</span><span class="fl">8</span><span class="op">)</span>
-<span class="co">#&gt; nframes and fps adjusted to match transition</span></code></pre></div>
-<p><img src="using-MocapMineR_files/figure-html/chunk1-1.gif"><!-- --></p>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">human</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">human</span><span class="op">)</span>
+<span class="co">#&gt;       segment          extr1            extr2</span>
+<span class="co">#&gt; 1    forarm_r    RIGHT_WRIST      RIGHT_ELBOW</span>
+<span class="co">#&gt; 2   humerus_r    RIGHT_ELBOW   RIGHT_SHOULDER</span>
+<span class="co">#&gt; 3     flank_r RIGHT_SHOULDER        RIGHT_HIP</span>
+<span class="co">#&gt; 4     femur_r      RIGHT_HIP       RIGHT_KNEE</span>
+<span class="co">#&gt; 5     tibia_r     RIGHT_KNEE      RIGHT_ANKLE</span>
+<span class="co">#&gt; 6 upperfoot_r    RIGHT_ANKLE RIGHT_FOOT_INDEX</span></code></pre></div>
+<p>Then, the <em>gaetan_apchagi</em> data set contains the coordinates of the joints as a function of time. The first column is the moment when the information have been recorded. The second column is the joint that was measured. Columns 3 to 5 correspond to the dimensions that have been measured. Column 6 is the index of the frame. Column 7 is the number of frames per second and the last column is the name of the practitioner.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">gaetan_apchagi</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">gaetan_apchagi</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 6 × 8</span>
+<span class="co">#&gt;    time loc                x     y      z frame   fps name  </span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1     0 RIGHT_SHOULDER  25.5  159. -0.292     0    30 Gaetan</span>
+<span class="co">#&gt; 2     0 LEFT_SHOULDER   47.6  155.  0.292     0    30 Gaetan</span>
+<span class="co">#&gt; 3     0 RIGHT_ELBOW     37.2  136. -0.528     0    30 Gaetan</span>
+<span class="co">#&gt; 4     0 LEFT_ELBOW      66.1  144.  0.549     0    30 Gaetan</span>
+<span class="co">#&gt; 5     0 RIGHT_WRIST     55.9  142. -0.679     0    30 Gaetan</span>
+<span class="co">#&gt; 6     0 LEFT_WRIST      88.4  152.  0.601     0    30 Gaetan</span></code></pre></div>
+<p>The <em>skeleton</em> function allows you to vizualize the movement you have recorded. The parameters <em>num.joint</em>, …, <em>num.name</em> depend on the <em>gaetan_apchagi</em> data set.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">gaetan_apchagi</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">human</span><span class="op">)</span>
-<span class="fu"><a href="../reference/skeleton.html">skeleton</a></span><span class="op">(</span>joint<span class="op">=</span><span class="va">gaetan_apchagi</span>, structure<span class="op">=</span> <span class="va">human</span>, num.joint<span class="op">=</span><span class="fl">2</span>,num.frame<span class="op">=</span><span class="fl">6</span>, num.x<span class="op">=</span><span class="fl">3</span>, num.y<span class="op">=</span><span class="fl">4</span>, num.name<span class="op">=</span><span class="fl">8</span>, body.part <span class="op">=</span> <span class="st">"tibia_r"</span>,frame.index<span class="op">=</span><span class="fl">25</span>, color.part <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/skeleton.html">skeleton</a></span><span class="op">(</span>joint<span class="op">=</span><span class="va">gaetan_apchagi</span>, structure<span class="op">=</span><span class="va">human</span>, num.joint<span class="op">=</span><span class="fl">2</span>, 
+         num.frame<span class="op">=</span><span class="fl">6</span>, num.x<span class="op">=</span><span class="fl">3</span>, num.y<span class="op">=</span><span class="fl">4</span>, num.name<span class="op">=</span><span class="fl">8</span><span class="op">)</span>
+<span class="co">#&gt; nframes and fps adjusted to match transition</span></code></pre></div>
+<p><img src="using-MocapMineR_files/figure-html/chunk1-1.gif"><!-- --></p>
+<p>You may also want to highlight a particular segment or body part.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">gaetan_apchagi</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">human</span><span class="op">)</span>
+<span class="fu"><a href="../reference/skeleton.html">skeleton</a></span><span class="op">(</span>joint<span class="op">=</span><span class="va">gaetan_apchagi</span>, structure<span class="op">=</span><span class="va">human</span>, num.joint<span class="op">=</span><span class="fl">2</span>, 
+         num.frame<span class="op">=</span><span class="fl">6</span>, num.x<span class="op">=</span><span class="fl">3</span>, num.y<span class="op">=</span><span class="fl">4</span>, num.name<span class="op">=</span><span class="fl">8</span>,
+         body.part <span class="op">=</span> <span class="st">"tibia_r"</span>,color.part <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span>
+<span class="co">#&gt; nframes and fps adjusted to match transition</span></code></pre></div>
+<p><img src="using-MocapMineR_files/figure-html/chunk11-1.gif"><!-- --></p>
+<p>You can also want to represent a particular frame, and highlight a particular segment or body part.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">gaetan_apchagi</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">human</span><span class="op">)</span>
+<span class="fu"><a href="../reference/skeleton.html">skeleton</a></span><span class="op">(</span>joint<span class="op">=</span><span class="va">gaetan_apchagi</span>, structure<span class="op">=</span> <span class="va">human</span>, num.joint<span class="op">=</span><span class="fl">2</span>,num.frame<span class="op">=</span><span class="fl">6</span>,
+         num.x<span class="op">=</span><span class="fl">3</span>, num.y<span class="op">=</span><span class="fl">4</span>, num.name<span class="op">=</span><span class="fl">8</span>, body.part <span class="op">=</span> <span class="st">"tibia_r"</span>,frame.index<span class="op">=</span><span class="fl">25</span>,
+         color.part <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span></code></pre></div>
 <p><img src="using-MocapMineR_files/figure-html/chunk2-1.png" width="700"></p>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-      </div>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
+</div>
 
 </div>
 
