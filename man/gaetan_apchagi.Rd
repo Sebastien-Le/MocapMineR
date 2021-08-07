@@ -3,26 +3,24 @@
 \docType{data}
 \name{gaetan_apchagi}
 \alias{gaetan_apchagi}
-\title{Weekly electricity consumption in France from 1996 to 2009 in MW
-meteo and socio-economic variables related to it}
+\title{Front kick for Gaetan}
 \format{
-A data frame with 731 rows and 11 variables:
+A data frame with 1232 rows and 8 variables:
 \describe{
-\item{time}{time index, in number of weeks}
-\item{loc}{Day}
-\item{x}{Month}
-\item{y}{Year}
-\item{z}{The position of the week along the year, from 1/52 the first week to 1 the last week of each year}
-\item{frame}{Temperature in celsius degree}
-\item{fps}{Weekly electricity consumption in France in MW }
-\item{name}{Lagged one weekly electricity consumption}
+\item{time}{The time}
+\item{loc}{The localisation, i.e. the joint}
+\item{x}{The coordinate on the x-axis}
+\item{y}{The coordinate on the y-axis}
+\item{z}{The coordinate on the z-axis}
+\item{frame}{The index of the frame}
+\item{fps}{The number of frame per second}
+\item{name}{The name of the figure}
 }
 }
 \usage{
 gaetan_apchagi
 }
 \description{
-Weekly electricity consumption in France from 1996 to 2009 in MW
-meteo and socio-economic variables related to it
+In this data set, we have recorded Gaetan while he was doing a front kick.
 }
 \keyword{datasets}

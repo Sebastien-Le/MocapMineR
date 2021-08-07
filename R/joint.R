@@ -1,6 +1,6 @@
 #' @title Graphical representation of the joints
 #' @description This function allows you to represent the joints as a function of time.
-#' The main argument is the dimension you want to represent on the y-axis. You can use this function to compare several figures at the same time, in that case, make sure to specify a proper vector of colours.
+#' The main argument is the dimension you want to represent on the y-axis. You can use this function to compare several practitioners at the same time, in that case, make sure to specify a proper vector of colours.
 #'
 #' @param joint The joint dataset: the coordinates of the joints as a function of time
 #' @param num.joint The index of the column associated with the joint variable

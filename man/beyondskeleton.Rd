@@ -2,7 +2,7 @@
 % Please edit documentation in R/beyondskeleton.R
 \name{beyondskeleton}
 \alias{beyondskeleton}
-\title{Title}
+\title{Graphical representation of the structure with an additional point, combined with trajectories}
 \usage{
 beyondskeleton(
   joint,
@@ -81,7 +81,7 @@ beyondskeleton(
 An animation by default or a static representation for a given frame
 }
 \description{
-Title
+Same idea as the superskeleton function, but here you will represent an additional point and its trajectory. The idea of this function is to study the movement with respect to an additional point. In other words, you will be able to see when one particular part of the structure meets that additional point during the movement.
 }
 \examples{
 \dontrun{

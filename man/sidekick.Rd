@@ -2,7 +2,7 @@
 % Please edit documentation in R/sidekick.R
 \name{sidekick}
 \alias{sidekick}
-\title{Create supplementary data to illustrate movement}
+\title{Create supplementary data to illustrate the representation of the structure}
 \usage{
 sidekick(
   joint,

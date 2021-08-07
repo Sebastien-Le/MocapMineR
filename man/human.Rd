@@ -3,21 +3,19 @@
 \docType{data}
 \name{human}
 \alias{human}
-\title{Weekly electricity consumption in France from 1996 to 2009 in MW
-meteo and socio-economic variables related to it}
+\title{The description of the structure}
 \format{
-A data frame with 731 rows and 11 variables:
+A data frame with 18 rows and 3 variables:
 \describe{
-\item{segment}{time index, in number of weeks}
-\item{extr1}{Day}
-\item{extr2}{Month}
+\item{segment}{The name of the segment}
+\item{extr1}{One of the extremities}
+\item{extr2}{The other extremity}
 }
 }
 \usage{
 human
 }
 \description{
-Weekly electricity consumption in France from 1996 to 2009 in MW
-meteo and socio-economic variables related to it
+This data set is very important, as the structure of the "object" of interest is described
 }
 \keyword{datasets}

@@ -1,5 +1,7 @@
-#' Title
+#' @title From Mediapipe data to R data 
 #'
+#' @description Once you collect data from Mediapipe, you can easily analyze them with that function after transforming them.
+#' 
 #' @param data A mediapipe type of data set
 #' @param width The width of the video
 #' @param height The height of the video

@@ -1,4 +1,6 @@
-#' Title
+#' @title Graphical representation of the joints
+#' 
+#' @description Use this function if you want to represent a particular joint as a function of time or one joint as a function of another joint.
 #'
 #' @param sidekick A dataset formatted to be plotted with the superskeleton function, the sidekick information
 #' @param plot.title The title of your graphical output

@@ -1,4 +1,6 @@
-#' Title
+#' @title Calculate the coordinates of an additional point defined by segments of the structure
+#' 
+#' @description Imagine you want to represent some kind of additional point, on the structure, within the structure, outside the structure. As you don't have the data for this representation, this function calculates the coordinates of such additional point based on a linear combination of two segments of the structure.
 #'
 #' @param joint The joint dataset: the coordinates of the joints as a function of time
 #' @param num.joint The index of the column associated with the joint variable

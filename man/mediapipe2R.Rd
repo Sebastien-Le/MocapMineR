@@ -2,7 +2,7 @@
 % Please edit documentation in R/mediapipe2R.R
 \name{mediapipe2R}
 \alias{mediapipe2R}
-\title{Title}
+\title{From Mediapipe data to R data}
 \usage{
 mediapipe2R(data, width, height, fps = 30, fig.height = 170, name)
 }
@@ -23,7 +23,7 @@ mediapipe2R(data, width, height, fps = 30, fig.height = 170, name)
 A data set to be used with the MocapMineR package
 }
 \description{
-Title
+Once you collect data from Mediapipe, you can easily analyze them with that function after transforming them.
 }
 \examples{
 

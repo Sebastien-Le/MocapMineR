@@ -1,4 +1,7 @@
-#' Title
+#' @title Representation of the structure
+#' 
+#' @description This function allows you to represent the structure/skeleton as a function of time.
+#' The main arguments are the two data sets joint and structure. You can highlight  a particular part of the body. 
 #'
 #' @param joint The joint dataset: the coordinates of the joints as a function of time
 #' @param structure The structure dataset: a first column with the segments composing the structure, two other columns defining the extremities of the segments

@@ -3,22 +3,20 @@
 \docType{data}
 \name{gaetan_apchagi_mediapipe}
 \alias{gaetan_apchagi_mediapipe}
-\title{Weekly electricity consumption in France from 1996 to 2009 in MW
-meteo and socio-economic variables related to it}
+\title{Mediapipe data set}
 \format{
-A data frame with 731 rows and 11 variables:
+A data frame with 6831 rows and 4 variables:
 \describe{
-\item{time}{time index, in number of weeks}
-\item{loc}{Day}
-\item{coord}{Month}
-\item{value}{Year}
+\item{time}{The time}
+\item{loc}{The localisation, i.e. the joint}
+\item{coord}{The dimension on which the value is measured, x, y and z}
+\item{value}{The corrdinate in a 3 dimensional space}
 }
 }
 \usage{
 gaetan_apchagi_mediapipe
 }
 \description{
-Weekly electricity consumption in France from 1996 to 2009 in MW
-meteo and socio-economic variables related to it
+This data set is the one obtained from MediaPipe after analyzing a video
 }
 \keyword{datasets}

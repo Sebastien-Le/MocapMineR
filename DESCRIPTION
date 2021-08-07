@@ -1,15 +1,25 @@
 Package: MocapMineR
-Title: What the Package Does (One Line, Title Case)
+Title: A package dedicated to the analysis of motion capture data
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+  c(person(given = "Lou-Anne",
+           family = "Guillotel",
+           role = "aut"),
+    person(given = "Sébastien",
+           family = "Lê",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           email = "sebastien.le@agrocampus-ouest.fr"))
+Description: MocapMineR is an R package dedicated to the analysis of motion capture data. It was initially developed by Lou-Anne Guillotel and myself to analyze movements from blind Tae Kwon Do practitioners. The main idea, was to find a way to correct these practitioners automatically, based on graphical indicators. Actually, this package works for any kind of motion capture data.           
 Depends: R (>= 3.5.0)
-Imports: tidyverse,gganimate,ggpubr,LearnGeom,dplyr,ggplot2,grDevices,tidyr
-Description: What the package does (one paragraph).
+Imports: 
+  tidyverse,
+  gganimate,
+  ggpubr,
+  LearnGeom,
+  dplyr,
+  ggplot2,
+  grDevices,
+  tidyr
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true

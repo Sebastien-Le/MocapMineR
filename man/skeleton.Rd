@@ -2,7 +2,7 @@
 % Please edit documentation in R/skeleton.R
 \name{skeleton}
 \alias{skeleton}
-\title{Title}
+\title{Representation of the structure}
 \usage{
 skeleton(
   joint,
@@ -45,7 +45,8 @@ skeleton(
 An animation by default or a static representation for a given frame
 }
 \description{
-Title
+This function allows you to represent the structure/skeleton as a function of time.
+The main arguments are the two data sets joint and structure. You can highlight  a particular part of the body.
 }
 \examples{
 

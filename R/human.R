@@ -1,10 +1,11 @@
-#' Weekly electricity consumption in France from 1996 to 2009 in MW
-#' meteo and socio-economic variables related to it
+#' The description of the structure
+#' 
+#' This data set is very important, as the structure of the "object" of interest is described
 #'
-#' @format A data frame with 731 rows and 11 variables:
+#' @format A data frame with 18 rows and 3 variables:
 #' \describe{
-#'   \item{segment}{time index, in number of weeks}
-#'   \item{extr1}{Day}
-#'   \item{extr2}{Month}
+#'   \item{segment}{The name of the segment}
+#'   \item{extr1}{One of the extremities}
+#'   \item{extr2}{The other extremity}
 #' }
 "human"

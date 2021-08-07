@@ -2,7 +2,7 @@
 % Please edit documentation in R/beyondkick.R
 \name{beyondkick}
 \alias{beyondkick}
-\title{Title}
+\title{Calculate the coordinates of an additional point defined by segments of the structure}
 \usage{
 beyondkick(
   joint,
@@ -36,7 +36,7 @@ beyondkick(
 A supplementary dataset to be used with the beyondskeleton function
 }
 \description{
-Title
+Imagine you want to represent some kind of additional point, on the structure, within the structure, outside the structure. As you don't have the data for this representation, this function calculates the coordinates of such additional point based on a linear combination of two segments of the structure.
 }
 \examples{
 \dontrun{

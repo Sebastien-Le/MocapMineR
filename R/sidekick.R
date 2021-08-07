@@ -1,4 +1,4 @@
-#' @title Create supplementary data to illustrate movement
+#' @title Create supplementary data to illustrate the representation of the structure
 #'
 #' @description This function creates a new dataset for the superskeleton function.
 #'

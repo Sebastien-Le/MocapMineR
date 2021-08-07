@@ -2,7 +2,7 @@
 % Please edit documentation in R/flash.R
 \name{flash}
 \alias{flash}
-\title{Title}
+\title{Graphical representation of the joints}
 \usage{
 flash(
   sidekick,
@@ -39,7 +39,7 @@ flash(
 The static representation of the sidekick data
 }
 \description{
-Title
+Use this function if you want to represent a particular joint as a function of time or one joint as a function of another joint.
 }
 \examples{
 
