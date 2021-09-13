@@ -87,9 +87,9 @@
 <a href="#introduction" class="anchor"></a>Introduction</h1>
 <p><code>MocapMineR</code> is an R package dedicated to the analysis of motion capture data. It was initially developed by Lou-Anne Guillotel and myself (Sébastien Lê) to analyze movements from blind Tae Kwon Do practitioners. The main idea, was to find a way to correct these practitioners automatically, based on graphical indicators. Actually, this package works for any kind of motion capture data. To use this package you will need two data sets. A first one, in which you store the coordinates of joints as a function of time, a second one in which you describe the structure of interest, <em>i.e.</em> the dependencies between the joints that define the segments of the structure.</p>
 </div>
-<div id="a-first-step-vizualization-of-the-structure-as-a-function-of-time-with-the-skeleton-function" class="section level1">
+<div id="a-first-step-visualization-of-the-structure-as-a-function-of-time-with-the-skeleton-function" class="section level1">
 <h1 class="hasAnchor">
-<a href="#a-first-step-vizualization-of-the-structure-as-a-function-of-time-with-the-skeleton-function" class="anchor"></a>A first step: vizualization of the structure as a function of time with the <code>skeleton</code> function</h1>
+<a href="#a-first-step-visualization-of-the-structure-as-a-function-of-time-with-the-skeleton-function" class="anchor"></a>A first step: visualization of the structure as a function of time with the <code>skeleton</code> function</h1>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">MocapMineR</span><span class="op">)</span></code></pre></div>
 <p>The <em>human</em> data set depicts the dependencies between the segments that compose the structure. It is constituted of three columns, a first one (<em>segment</em>) with the names of the segments, the two others with the names of the joints at the extremities of the segments (<em>extr1</em> and <em>extr2</em>).</p>
@@ -133,7 +133,7 @@
          body.part <span class="op">=</span> <span class="st">"tibia_r"</span>,color.part <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span>
 <span class="co">#&gt; Warning: No renderer available. Please install the gifski, av, or magick package to create animated</span>
 <span class="co">#&gt; output</span></code></pre></div>
-<p>You can also want to represent a particular frame, and highlight a particular segment or body part.</p>
+<p>You can also represent a particular frame, and highlight a particular segment or body part.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">gaetan_apchagi</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">human</span><span class="op">)</span>
@@ -141,6 +141,78 @@
          num.x<span class="op">=</span><span class="fl">3</span>, num.y<span class="op">=</span><span class="fl">4</span>, num.name<span class="op">=</span><span class="fl">8</span>, body.part <span class="op">=</span> <span class="st">"tibia_r"</span>,frame.index<span class="op">=</span><span class="fl">25</span>,
          color.part <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span></code></pre></div>
 <p><img src="using-MocapMineR_files/figure-html/chunk2-1.png" width="700"></p>
+</div>
+<div id="a-second-step-visualization-of-the-joints-as-a-function-of-time-with-the-joint-function" class="section level1">
+<h1 class="hasAnchor">
+<a href="#a-second-step-visualization-of-the-joints-as-a-function-of-time-with-the-joint-function" class="anchor"></a>A second step: visualization of the joints as a function of time with the <code>joint</code> function</h1>
+<p>Once you have a global understanding of what is going on, you may want to focus on the joints, i.e. you may want to aadopt a more local point of view (<em>versus</em> global).</p>
+<p>To do so, let’s apply the <code>joint</code> function. The idea is to represent the trajectory of each joint as a function of time: the index of the frame corresponds to the x-axis (<strong>num.frame</strong>), then you have to choose the dimension you want to represent on the y-axis (<strong>num.y</strong>).</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">gaetan_apchagi</span><span class="op">)</span>
+<span class="fu"><a href="../reference/joint.html">joint</a></span><span class="op">(</span>joint<span class="op">=</span><span class="va">gaetan_apchagi</span>, num.joint<span class="op">=</span><span class="fl">2</span>, num.frame<span class="op">=</span><span class="fl">6</span>, num.y<span class="op">=</span><span class="fl">4</span>, num.name<span class="op">=</span><span class="fl">8</span>,
+      y.legend<span class="op">=</span><span class="st">"y"</span>, fig.color<span class="op">=</span><span class="st">"#FF0099"</span><span class="op">)</span></code></pre></div>
+<p><img src="using-MocapMineR_files/figure-html/chunk3-1.png" width="700"></p>
+<p><strong>Remark.</strong> This function can be used to compare different practitioners according to particular joints.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">all_apchagi</span><span class="op">)</span>
+<span class="fu"><a href="../reference/joint.html">joint</a></span><span class="op">(</span>joint<span class="op">=</span><span class="va">all_apchagi</span>, num.joint<span class="op">=</span><span class="fl">2</span>, num.frame<span class="op">=</span><span class="fl">6</span>, num.y<span class="op">=</span><span class="fl">4</span>, num.name<span class="op">=</span><span class="fl">8</span>, y.legend<span class="op">=</span><span class="st">"y"</span>,
+fig.color<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#3333FF"</span>, <span class="st">"#FF0099"</span>, <span class="st">"#00FFCC"</span><span class="op">)</span>,
+vect.joint <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"RIGHT_KNEE"</span>, <span class="st">"RIGHT_ANKLE"</span>, <span class="st">"RIGHT_FOOT_INDEX"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p><img src="using-MocapMineR_files/figure-html/chunk4-1.png" width="700"></p>
+</div>
+<div id="a-third-step-combining-the-visualization-of-the-structure-on-the-one-hand-of-the-joints-on-the-other-hand-with-the-superskeleton-function" class="section level1">
+<h1 class="hasAnchor">
+<a href="#a-third-step-combining-the-visualization-of-the-structure-on-the-one-hand-of-the-joints-on-the-other-hand-with-the-superskeleton-function" class="anchor"></a>A third step: combining the visualization of the structure on the one hand, of the joints on the other hand, with the <code>superskeleton</code> function</h1>
+<p>In order to get a better understanding of the visualization of the structure, we first have to calculate numerical indicators. This is the role of the <code>sidekick</code> function. Here, we introduce the concept of singleton, couple and triplet.</p>
+<p>A singleton is simply a joint, a couple is the association of two joints you want to compare in terms of relative positioning, and finally a triplet is the angle defined by the two vectors associated with the three joints of the triplet.</p>
+<p>The <code>sidekick</code> function provides two options. The first one offers the possibility to represent a singleton (<em>resp.</em> a couple, <em>resp.</em> a triplet) as a function of time. The second one offers the possibility to represent a singleton (<em>resp.</em> a couple, <em>resp.</em> a triplet) as a function of another singleton.</p>
+<p><strong>The DNA of movement</strong></p>
+<p>Let’s first study the singleton (<em>resp.</em> couple, <em>resp.</em> triplet) as a function of time. In the following example, we are interested into the right ankle. The <code>sidekick</code> function will provide the proper data set for the <code>superskeleton</code> function. The <code>superskeleton</code> function will provide a visualization of the structure enhanced with a visualization of the singleton of interest (<em>resp.</em> couple, <em>resp.</em> triplet). Let’s first get the proper data set.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">all_apchagi</span><span class="op">)</span>
+<span class="va">S1_right_ankle</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sidekick.html">sidekick</a></span><span class="op">(</span>joint<span class="op">=</span><span class="va">gaetan_apchagi</span>, num.joint<span class="op">=</span><span class="fl">2</span>, num.name<span class="op">=</span><span class="fl">8</span>,
+num.x<span class="op">=</span><span class="fl">6</span>, num.y<span class="op">=</span><span class="fl">4</span>, joint1<span class="op">=</span><span class="st">"RIGHT_ANKLE"</span>, joint2<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">S1_right_ankle</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 6 × 7</span>
+<span class="co">#&gt;   name   object_type     loc segment     x     y frame</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;         &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;</span>
+<span class="co">#&gt; 1 Gaetan one_singleton     0       0     0  16.0     0</span>
+<span class="co">#&gt; 2 Gaetan one_singleton     0       0     1  16.0     1</span>
+<span class="co">#&gt; 3 Gaetan one_singleton     0       0     2  16.0     2</span>
+<span class="co">#&gt; 4 Gaetan one_singleton     0       0     3  16.0     3</span>
+<span class="co">#&gt; 5 Gaetan one_singleton     0       0     4  16.0     4</span>
+<span class="co">#&gt; 6 Gaetan one_singleton     0       0     5  15.7     5</span></code></pre></div>
+<p>Now that we have calculated the <em>S1_right_ankle</em> data set, we can use it as an input for the <code>superskeleton</code> function. The main inputs are the coordinates of the joints (<em>joint</em> parameter), the definition of the structure (<em>structure</em> parameter), the data set you want to visualize with the structure (<em>sidekick</em> parameter). Once you have these main inputs, you can tell the computer how you want to represent your structure. Here, as we are interested in the right ankle, we are going to highlight this joint on the structure.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">gaetan_apchagi</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">human</span><span class="op">)</span>
+
+<span class="va">S1_right_ankle</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sidekick.html">sidekick</a></span><span class="op">(</span>joint<span class="op">=</span><span class="va">gaetan_apchagi</span>, num.joint<span class="op">=</span><span class="fl">2</span>, num.name<span class="op">=</span><span class="fl">8</span>,
+num.x<span class="op">=</span><span class="fl">6</span>, num.y<span class="op">=</span><span class="fl">4</span>, joint1<span class="op">=</span><span class="st">"RIGHT_ANKLE"</span>, joint2<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span>
+
+<span class="fu"><a href="../reference/superskeleton.html">superskeleton</a></span><span class="op">(</span>joint<span class="op">=</span><span class="va">gaetan_apchagi</span>, structure<span class="op">=</span><span class="va">human</span>, sidekick<span class="op">=</span><span class="va">S1_right_ankle</span>,
+num.joint<span class="op">=</span><span class="fl">2</span>, num.frame<span class="op">=</span><span class="fl">6</span>, num.x<span class="op">=</span><span class="fl">3</span>, num.y<span class="op">=</span><span class="fl">4</span>,  frame.index<span class="op">=</span><span class="cn">NULL</span>,
+body.part<span class="op">=</span><span class="st">"RIGHT_ANKLE"</span>, color.part<span class="op">=</span><span class="st">"orange"</span>,
+plot.title<span class="op">=</span><span class="st">"Gaetan - right ankle trajectory"</span>, x.legend<span class="op">=</span><span class="st">"Frame"</span>,
+y.legend<span class="op">=</span><span class="st">"Trajectory in y (cm)"</span><span class="op">)</span>
+<span class="co">#&gt; Warning: No renderer available. Please install the gifski, av, or magick package to create animated</span>
+<span class="co">#&gt; output</span></code></pre></div>
+<p>Of course, if you want to visualize this information for a given frame, all you have to do is to specify the index of the frame you want to represent.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">gaetan_apchagi</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">human</span><span class="op">)</span>
+
+<span class="va">S1_right_ankle</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sidekick.html">sidekick</a></span><span class="op">(</span>joint<span class="op">=</span><span class="va">gaetan_apchagi</span>, num.joint<span class="op">=</span><span class="fl">2</span>, num.name<span class="op">=</span><span class="fl">8</span>,
+num.x<span class="op">=</span><span class="fl">6</span>, num.y<span class="op">=</span><span class="fl">4</span>, joint1<span class="op">=</span><span class="st">"RIGHT_ANKLE"</span>, joint2<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span>
+
+<span class="fu"><a href="../reference/superskeleton.html">superskeleton</a></span><span class="op">(</span>joint<span class="op">=</span><span class="va">gaetan_apchagi</span>, structure<span class="op">=</span><span class="va">human</span>, sidekick<span class="op">=</span><span class="va">S1_right_ankle</span>,
+num.joint<span class="op">=</span><span class="fl">2</span>, num.frame<span class="op">=</span><span class="fl">6</span>, num.x<span class="op">=</span><span class="fl">3</span>, num.y<span class="op">=</span><span class="fl">4</span>,  frame.index<span class="op">=</span><span class="fl">25</span>,
+body.part<span class="op">=</span><span class="st">"RIGHT_ANKLE"</span>, color.part<span class="op">=</span><span class="st">"orange"</span>,
+plot.title<span class="op">=</span><span class="st">"Gaetan - right ankle trajectory"</span>, x.legend<span class="op">=</span><span class="st">"Frame"</span>,
+y.legend<span class="op">=</span><span class="st">"Trajectory in y (cm)"</span><span class="op">)</span></code></pre></div>
+<p><img src="using-MocapMineR_files/figure-html/chunk7-1.png" width="700"></p>
+<p><strong>The RNA of movement</strong></p>
+<p>In this part, we are going to visualize the RNA of the movement, <em>i.e.</em> some kind of signature of the movement.</p>
 </div>
   </div>
 
