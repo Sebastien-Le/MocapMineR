@@ -11,7 +11,7 @@ vignette: >
 
 `MocapMineR` is an R package dedicated to the analysis of motion capture data. It was initially developed by Lou-Anne Guillotel and myself (Sébastien Lê) to analyze movements from blind Tae Kwon Do practitioners. The main idea, was to find a way to correct these practitioners automatically, based on graphical indicators. Actually, this package works for any kind of motion capture data. To use this package you will need two data sets. A first one, in which you store the coordinates of joints as a function of time, a second one in which you describe the structure of interest, *i.e.* the dependencies between the joints that define the segments of the structure.
 
-# A first step: vizualization of the structure as a function of time with the `skeleton` function
+# A first step: visualization of the structure as a function of time with the `skeleton` function
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -62,7 +62,7 @@ skeleton(joint=gaetan_apchagi, structure=human, num.joint=2,
          body.part = "tibia_r",color.part = "orange")
 ```
 
-You can also want to represent a particular frame, and highlight a particular segment or body part.
+You can also represent a particular frame, and highlight a particular segment or body part.
 
 ```{r, chunk2, echo=-1}
 options(width = 100)
@@ -74,5 +74,83 @@ skeleton(joint=gaetan_apchagi, structure= human, num.joint=2,num.frame=6,
 ```
 
 
+# A second step: visualization of the joints as a function of time with the `joint` function
 
+Once you have a global understanding of what is going on, you may want to focus on the joints, i.e. you may want to aadopt a more local point of view (*versus* global).
 
+To do so, let's apply the `joint` function. The idea is to represent the trajectory of each joint as a function of time: the index of the frame corresponds to the x-axis (**num.frame**), then you have to choose the dimension you want to represent on the y-axis (**num.y**).
+
+```{r, chunk3, echo=-1}
+options(width = 100)
+data(gaetan_apchagi)
+joint(joint=gaetan_apchagi, num.joint=2, num.frame=6, num.y=4, num.name=8,
+      y.legend="y", fig.color="#FF0099")
+```
+
+**Remark.** This function can be used to compare different practitioners according to particular joints.
+
+```{r, chunk4, echo=-1}
+options(width = 100)
+data(all_apchagi)
+joint(joint=all_apchagi, num.joint=2, num.frame=6, num.y=4, num.name=8, y.legend="y",
+fig.color=c("#3333FF", "#FF0099", "#00FFCC"),
+vect.joint = c("RIGHT_KNEE", "RIGHT_ANKLE", "RIGHT_FOOT_INDEX"))
+```
+
+# A third step: combining the visualization of the structure on the one hand, of the joints on the other hand, with the `superskeleton` function
+
+In order to get a better understanding of the visualization of the structure, we first have to calculate numerical indicators. This is the role of the `sidekick` function. Here, we introduce the concept of singleton, couple and triplet.
+
+A singleton is simply a joint, a couple is the association of two joints you want to compare in terms of relative positioning, and finally a triplet is the angle defined by the two vectors associated with the three joints of the triplet.
+
+The `sidekick` function provides two options. The first one offers the possibility to represent a singleton (*resp.* a couple, *resp.* a triplet) as a function of time. The second one offers the possibility to represent a singleton (*resp.* a couple, *resp.* a triplet) as a function of another singleton.
+
+**The DNA of movement**
+
+Let's first study the singleton (*resp.* couple, *resp.* triplet) as a function of time. In the following example, we are interested into the right ankle. The `sidekick` function will provide the proper data set for the `superskeleton` function. The `superskeleton` function will provide a visualization of the structure enhanced with a visualization of the singleton of interest (*resp.* couple, *resp.* triplet). Let's first get the proper data set.
+
+```{r, chunk5, echo=-1}
+options(width = 100)
+data(all_apchagi)
+S1_right_ankle <- sidekick(joint=gaetan_apchagi, num.joint=2, num.name=8,
+num.x=6, num.y=4, joint1="RIGHT_ANKLE", joint2=NULL)
+head(S1_right_ankle)
+```
+
+Now that we have calculated the *S1_right_ankle* data set, we can use it as an input for the `superskeleton` function. The main inputs are the coordinates of the joints (*joint* parameter), the definition of the structure (*structure* parameter), the data set you want to visualize with the structure (*sidekick* parameter). Once you have these main inputs, you can tell the computer how you want to represent your structure. Here, as we are interested in the right ankle, we are going to highlight this joint on the structure.
+
+```{r, chunk6, echo=-1}
+options(width = 100)
+data(gaetan_apchagi)
+data(human)
+
+S1_right_ankle <- sidekick(joint=gaetan_apchagi, num.joint=2, num.name=8,
+num.x=6, num.y=4, joint1="RIGHT_ANKLE", joint2=NULL)
+
+superskeleton(joint=gaetan_apchagi, structure=human, sidekick=S1_right_ankle,
+num.joint=2, num.frame=6, num.x=3, num.y=4,  frame.index=NULL,
+body.part="RIGHT_ANKLE", color.part="orange",
+plot.title="Gaetan - right ankle trajectory", x.legend="Frame",
+y.legend="Trajectory in y (cm)")
+```
+
+Of course, if you want to visualize this information for a given frame, all you have to do is to specify the index of the frame you want to represent.
+
+```{r, chunk7, echo=-1}
+options(width = 100)
+data(gaetan_apchagi)
+data(human)
+
+S1_right_ankle <- sidekick(joint=gaetan_apchagi, num.joint=2, num.name=8,
+num.x=6, num.y=4, joint1="RIGHT_ANKLE", joint2=NULL)
+
+superskeleton(joint=gaetan_apchagi, structure=human, sidekick=S1_right_ankle,
+num.joint=2, num.frame=6, num.x=3, num.y=4,  frame.index=25,
+body.part="RIGHT_ANKLE", color.part="orange",
+plot.title="Gaetan - right ankle trajectory", x.legend="Frame",
+y.legend="Trajectory in y (cm)")
+```
+
+**The RNA of movement** 
+
+In this part, we are going to visualize the RNA of the movement, *i.e.* some kind of signature of the movement. 
